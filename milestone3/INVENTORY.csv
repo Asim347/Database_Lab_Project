@@ -1,0 +1,21 @@
+PartID,CategoryID,PartName,StockQuantity,UnitPrice
+1,1,Timing Belt - Toyota Corolla,15,2500.0
+2,2,Brake Pads Set - Honda Civic,30,1800.0
+3,3,Car Battery 65Ah - GS,20,8500.0
+4,4,Oil Filter - Suzuki Cultus,50,350.0
+5,5,Tyre 175/65R14 - Bridgestone,25,7200.0
+6,6,Engine Oil 5W-30 4L - Castrol,40,2200.0
+7,7,Front Bumper - Toyota Yaris,8,12000.0
+8,1,Head Gasket - Honda City,12,3500.0
+9,2,Brake Disc - Suzuki Alto,18,2800.0
+10,3,Alternator 70A - Toyota,10,9500.0
+11,4,Air Filter - Honda Civic,35,450.0
+12,5,Tyre 195/55R15 - Yokohama,20,9000.0
+13,6,Coolant 1L - Toyota,60,650.0
+14,7,Side Mirror - Honda City,14,3200.0
+15,1,Camshaft - Suzuki Mehran,6,6500.0
+16,2,Brake Fluid DOT4 500ml,45,380.0
+17,3,Starter Motor - Toyota,9,7800.0
+18,4,Fuel Filter - Honda,28,550.0
+19,6,Power Steering Fluid 1L,38,700.0
+20,7,Windscreen - Suzuki Swift,5,18000.0

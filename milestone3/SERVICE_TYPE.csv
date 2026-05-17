@@ -1,0 +1,8 @@
+ServiceTypeID,TypeName,Description
+1,Oil Change,Drain and replace engine oil and oil filter
+2,Full Annual Service,Comprehensive 50-point vehicle inspection and service
+3,Brake Inspection,"Check and replace brake pads, discs, and fluid"
+4,Tyre Rotation,Rotate tyres to even wear; check pressure and tread
+5,Engine Diagnostics,OBD-II scan and engine fault code analysis
+6,Air Conditioning Service,"AC recharge, leak test, and cabin filter replacement"
+7,Electrical Fault Check,"Battery test, wiring inspection, ECU diagnostics"

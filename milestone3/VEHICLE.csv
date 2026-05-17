@@ -1,0 +1,21 @@
+VehicleID,PlateNumber,Model,Year,OwnerID
+1,LHR-2018-001,Toyota Corolla GLi,2018,1
+2,ISB-2020-002,Honda Civic Oriel,2020,2
+3,PES-2019-003,Suzuki Cultus VXL,2019,3
+4,KHI-2021-004,Toyota Yaris ATIV,2021,4
+5,LHR-2017-005,Honda City Aspire,2017,5
+6,ISB-2022-006,Suzuki Alto VXL,2022,6
+7,PES-2016-007,Toyota Hilux Revo,2016,7
+8,KHI-2023-008,Honda BR-V S,2023,8
+9,LHR-2015-009,Suzuki Wagon R VXL,2015,9
+10,ISB-2019-010,Toyota Prado TXL,2019,10
+11,PES-2020-011,Honda CD70 Dream,2020,11
+12,KHI-2018-012,Suzuki Mehran VX,2018,12
+13,LHR-2021-013,Toyota Land Cruiser,2021,13
+14,ISB-2017-014,Honda Accord VTi-L,2017,14
+15,PES-2022-015,Suzuki Bolan VX,2022,15
+16,KHI-2016-016,Toyota Fortuner 2.7,2016,16
+17,LHR-2023-017,Honda Vezel RS,2023,17
+18,ISB-2020-018,Suzuki Swift DLX,2020,18
+19,PES-2019-019,Toyota Camry Grande,2019,19
+20,KHI-2021-020,Honda Fit GP5,2021,20

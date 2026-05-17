@@ -1,0 +1,13 @@
+📊 Dataflow — Smart Vehicle Management System
+
+Data enters the system through vehicle owners, vehicle registration, service appointments, inventory management, and payment processing. The system ensures structured movement of data across all related tables.
+
+OWNER → VEHICLE: Owner details are stored first, and each owner can register multiple vehicles using OwnerID as a foreign key.
+VEHICLE → APPOINTMENT: Registered vehicles are used to book service appointments, which include service type, date, and assigned mechanic.
+APPOINTMENT → SERVICE: Once the appointment is completed, a service record is created to log actual work performed on the vehicle.
+SERVICE → SERVICE_PARTS → INVENTORY: During service, required spare parts are recorded. This links SERVICE and INVENTORY tables and automatically updates stock levels.
+SERVICE → INVOICE: After service completion, an invoice is generated containing cost details such as subtotal, tax, and total amount.
+INVOICE → PAYMENT: Payments are recorded against invoices using different payment methods like cash, card, or bank transfer.
+🎯 Output of the System:
+
+The system produces service history, billing invoices, payment records, and inventory status reports.
