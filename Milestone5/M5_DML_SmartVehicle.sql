@@ -1,435 +1,291 @@
 -- ============================================================
--- Smart Vehicle Management System
--- Version 1.2 — Fully Normalized Schema (Milestone 2)
--- Applied: 1NF, 2NF, 3NF
--- Authors : Asim Ali | Tariq Jamil | BSCS 'A'
+-- Smart Vehicle Service Management System
+-- Updated Complete DML & Operational Script
 -- ============================================================
 
--- Drop all tables in reverse dependency order (safe re-run)
+-- Create database if it doesn't exist to prevent catalog errors
+CREATE DATABASE IF NOT EXISTS smart_vehicle_management_sytem;
+USE smart_vehicle_management_sytem;
+
+-- Disable constraints temporarily to safely refresh database tables
 SET FOREIGN_KEY_CHECKS = 0;
-DROP TABLE IF EXISTS SERVICE_PARTS;
-DROP TABLE IF EXISTS SERVICE;
-DROP TABLE IF EXISTS INVOICE;
-DROP TABLE IF EXISTS PAYMENT;
-DROP TABLE IF EXISTS APPOINTMENT;
-DROP TABLE IF EXISTS VEHICLE;
-DROP TABLE IF EXISTS OWNER;
-DROP TABLE IF EXISTS MECHANIC;
-DROP TABLE IF EXISTS SPECIALIZATION;
-DROP TABLE IF EXISTS INVENTORY;
-DROP TABLE IF EXISTS PART_CATEGORY;
-DROP TABLE IF EXISTS PAYMENT_METHOD;
-DROP TABLE IF EXISTS SERVICE_TYPE;
+
+-- ============================================================
+-- 1. SPECIALIZATION
+-- ============================================================
+REPLACE INTO SPECIALIZATION (SpecID, SpecName, Description) VALUES 
+(1, 'Engine Overhaul',       'Internal combustion engine repair and rebuilding'), 
+(2, 'Electrical Systems',    'Wiring, battery, alternator, and ECU diagnostics'), 
+(3, 'Tyres and Suspension',  'Tyre fitting, wheel alignment, shock absorbers'), 
+(4, 'Air Conditioning',      'AC recharge, compressor repair, cabin cooling'), 
+(5, 'Brakes',                'Brake pad replacement, disc skimming, fluid flush'), 
+(6, 'Bodywork',              'Panel beating, dent removal, painting'), 
+(7, 'General Maintenance',   'Routine servicing, oil changes, filter replacements');
+
+-- ============================================================
+-- 2. PART_CATEGORY
+-- ============================================================
+REPLACE INTO PART_CATEGORY (CategoryID, CategoryName, Description) VALUES 
+(1, 'Engine Components', 'Pistons, camshafts, timing belts, gaskets'), 
+(2, 'Brake System',      'Brake pads, discs, callipers, brake fluid'), 
+(3, 'Electrical',        'Batteries, alternators, starter motors, fuses'), 
+(4, 'Filters',           'Oil filters, air filters, fuel filters, cabin filters'), 
+(5, 'Tyres and Wheels',  'Tyres, rims, valve stems, wheel nuts'), 
+(6, 'Fluids',            'Engine oil, coolant, brake fluid, power steering fluid'), 
+(7, 'Body Parts',        'Bumpers, mirrors, door handles, windscreens');
+
+-- ============================================================
+-- 3. SERVICE_TYPE
+-- ============================================================
+REPLACE INTO SERVICE_TYPE (ServiceTypeID, TypeName, Description) VALUES 
+(1, 'Oil Change',              'Drain and replace engine oil and oil filter'), 
+(2, 'Full Annual Service',     'Comprehensive 50-point vehicle inspection and service'), 
+(3, 'Brake Inspection',        'Check and replace brake pads, discs, and fluid'), 
+(4, 'Tyre Rotation',           'Rotate tyres to even wear; check pressure and tread'), 
+(5, 'Engine Diagnostics',      'OBD-II scan and engine fault code analysis'), 
+(6, 'Air Conditioning Service','AC recharge, leak test, and cabin filter replacement'), 
+(7, 'Electrical Fault Check',  'Battery test, wiring inspection, ECU diagnostics');
+
+-- ============================================================
+-- 4. PAYMENT_METHOD
+-- ============================================================
+REPLACE INTO PAYMENT_METHOD (MethodID, MethodName) VALUES 
+(1, 'Cash'), 
+(2, 'Card'), 
+(3, 'Bank Transfer'), 
+(4, 'Online');
+
+-- ============================================================
+-- 5. OWNER
+-- ============================================================
+REPLACE INTO OWNER (OwnerID, Name, Phone, Address) VALUES 
+(1,  'Ahmed Raza',      '03001234567', 'House 12, Gulberg III, Lahore'), 
+(2,  'Fatima Khan',     '03012345678', 'Flat 5, F-7/2, Islamabad'), 
+(3,  'Muhammad Tariq',  '03023456789', 'Street 4, Hayatabad Phase 3, Peshawar'), 
+(4,  'Sana Malik',      '03034567890', 'Plot 22, DHA Phase 2, Karachi'), 
+(5,  'Bilal Hussain',   '03045678901', 'House 7, Johar Town, Lahore'), 
+(6,  'Ayesha Siddiqui', '03056789012', 'Sector G-11/1, Islamabad'), 
+(7,  'Usman Ghani',     '03067890123', 'University Road, Peshawar'), 
+(8,  'Nadia Iqbal',     '03078901234', 'Block B, North Nazimabad, Karachi'), 
+(9,  'Zubair Ahmad',    '03089012345', 'Model Town Extension, Lahore'), 
+(10, 'Hina Baig',       '03090123456', 'E-7, Islamabad'), 
+(11, 'Asad Mehmood',    '03101234567', 'Regi Model Town, Peshawar'), 
+(12, 'Sobia Qureshi',   '03112345678', 'Clifton Block 4, Karachi'), 
+(13, 'Imran Yousaf',    '03123456789', 'Wapda Town Phase 1, Lahore'), 
+(14, 'Rabia Zafar',     '03134567890', 'Sector I-10/3, Islamabad'), 
+(15, 'Kamran Sheikh',   '03145678901', 'Dalazak Road, Peshawar'), 
+(16, 'Maryam Nawaz',    '03156789012', 'Gulshan-e-Iqbal Block 13, Karachi'), 
+(17, 'Faisal Chaudhry', '03167890123', 'Canal Bank Road, Lahore'), 
+(18, 'Sadia Rehman',    '03178901234', 'G-8/4, Islamabad'), 
+(19, 'Zaheer Abbas',    '03189012345', 'Ring Road, Peshawar'), 
+(20, 'Amna Tariq',      '03190123456', 'PECHS Block 2, Karachi');
+
+-- ============================================================
+-- 6. MECHANIC
+-- ============================================================
+REPLACE INTO MECHANIC (MechanicID, Name, SpecID) VALUES 
+(1,  'Khalid Mehmood', 1), 
+(2,  'Tariq Hussain',  2), 
+(3,  'Nasir Ali',      3), 
+(4,  'Arif Ullah',     4), 
+(5,  'Jameel Ahmad',   5), 
+(6,  'Pervez Khan',    6), 
+(7,  'Sajid Iqbal',    7), 
+(8,  'Waqas Rehman',   1), 
+(9,  'Hamid Nawaz',    2), 
+(10, 'Rizwan Bashir',  3);
+
+-- ============================================================
+-- 7. VEHICLE
+-- ============================================================
+REPLACE INTO VEHICLE (VehicleID, PlateNumber, Model, Year, OwnerID) VALUES 
+(1,  'LHR-2018-001', 'Toyota Corolla GLi',   2018, 1), 
+(2,  'ISB-2020-002', 'Honda Civic Oriel',    2020, 2), 
+(3,  'PES-2019-003', 'Suzuki Cultus VXL',    2019, 3), 
+(4,  'KHI-2021-004', 'Toyota Yaris ATIV',    2021, 4), 
+(5,  'LHR-2017-005', 'Honda City Aspire',    2017, 5), 
+(6,  'ISB-2022-006', 'Suzuki Alto VXL',      2022, 6), 
+(7,  'PES-2016-007', 'Toyota Hilux Revo',    2016, 7), 
+(8,  'KHI-2023-008', 'Honda BR-V S',         2023, 8), 
+(9,  'LHR-2015-009', 'Suzuki Wagon R VXL',   2015, 9), 
+(10, 'ISB-2019-010', 'Toyota Prado TXL',     2019, 10), 
+(11, 'PES-2020-011', 'Honda CD70 Dream',     2020, 11), 
+(12, 'KHI-2018-012', 'Suzuki Mehran VX',     2018, 12), 
+(13, 'LHR-2021-013', 'Toyota Land Cruiser',  2021, 13), 
+(14, 'ISB-2017-014', 'Honda Accord VTi-L',   2017, 14), 
+(15, 'PES-2022-015', 'Suzuki Bolan VX',      2022, 15), 
+(16, 'KHI-2016-016', 'Toyota Fortuner 2.7',  2016, 16), 
+(17, 'LHR-2023-017', 'Honda Vezel RS',       2023, 17), 
+(18, 'ISB-2020-018', 'Suzuki Swift DLX',     2020, 18), 
+(19, 'PES-2019-019', 'Toyota Camry Grande',  2019, 19), 
+(20, 'KHI-2021-020', 'Honda Fit GP5',        2021, 20);
+
+-- ============================================================
+-- 8. INVENTORY
+-- ============================================================
+REPLACE INTO INVENTORY (PartID, CategoryID, PartName, StockQuantity, UnitPrice) VALUES 
+(1,  1, 'Timing Belt - Toyota Corolla',   15,  2500.00), 
+(2,  2, 'Brake Pads Set - Honda Civic',   30,  1800.00), 
+(3,  3, 'Car Battery 65Ah - GS',          20,  8500.00), 
+(4,  4, 'Oil Filter - Suzuki Cultus',     50,   350.00), 
+(5,  5, 'Tyre 175/65R14 - Bridgestone',   25,  7200.00), 
+(6,  6, 'Engine Oil 5W-30 4L - Castrol',  40,  2200.00), 
+(7,  7, 'Front Bumper - Toyota Yaris',     8, 12000.00), 
+(8,  1, 'Head Gasket - Honda City',       12,  3500.00), 
+(9,  2, 'Brake Disc - Suzuki Alto',       18,  2800.00), 
+(10, 3, 'Alternator 70A - Toyota',        10,  9500.00), 
+(11, 4, 'Air Filter - Honda Civic',       35,   450.00), 
+(12, 5, 'Tyre 195/55R15 - Yokohama',      20,  9000.00), 
+(13, 6, 'Coolant 1L - Toyota',            60,   650.00), 
+(14, 7, 'Side Mirror - Honda City',       14,  3200.00), 
+(15, 1, 'Camshaft - Suzuki Mehran',        6,  6500.00), 
+(16, 2, 'Brake Fluid DOT4 500ml',         45,   380.00), 
+(17, 3, 'Starter Motor - Toyota',          9,  7800.00), 
+(18, 4, 'Fuel Filter - Honda',            28,   550.00), 
+(19, 6, 'Power Steering Fluid 1L',        38,   700.00), 
+(20, 7, 'Windscreen - Suzuki Swift',       5, 18000.00);
+
+-- ============================================================
+-- 9. APPOINTMENT
+-- ============================================================
+REPLACE INTO APPOINTMENT (ApptID, VehicleID, MechanicID, ApptDateTime, ServiceTypeID, Status, Notes) VALUES 
+(1,  1,  1,    '2026-04-01 09:00:00', 1, 'Completed', 'Please check engine noise'), 
+(2,  2,  2,    '2026-04-03 10:30:00', 2, 'Completed', 'Brakes feel soft'), 
+(3,  3,  3,    '2026-04-05 11:00:00', 3, 'Completed', 'Tyre rotation due'), 
+(4,  4,  4,    '2026-04-08 09:30:00', 4, 'Completed', 'AC not cooling properly'), 
+(5,  5,  5,    '2026-04-10 14:00:00', 5, 'Completed', 'Routine annual service'), 
+(6,  6,  6,    '2026-04-12 10:00:00', 1, 'Completed', 'Oil change required'), 
+(7,  7,  7,    '2026-04-15 11:30:00', 7, 'Completed', 'Engine light on'), 
+(8,  8,  8,    '2026-04-18 09:00:00', 2, 'Completed', 'Battery check'), 
+(9,  9,  9,    '2026-04-20 15:00:00', 3, 'Completed', 'Suspension noise'), 
+(10, 10, 10,   '2026-04-22 10:00:00', 5, 'Completed', 'Full annual service'), 
+(11, 11, NULL, '2026-05-20 09:00:00', 1, 'Scheduled', 'Oil change overdue'), 
+(12, 12, NULL, '2026-05-22 10:30:00', 3, 'Scheduled', 'Check tyre pressure'), 
+(13, 13, 1,    '2026-05-25 11:00:00', 2, 'Scheduled', 'Brake inspection'), 
+(14, 14, 2,    '2026-05-28 14:00:00', 7, 'Scheduled', 'Electrical fault'), 
+(15, 15, NULL, '2026-06-01 09:30:00', 6, 'Scheduled', 'AC service needed');
+
+-- ============================================================
+-- 10. SERVICE
+-- ============================================================
+REPLACE INTO SERVICE (ServiceID, VehicleID, ServiceDate, TotalCost, MechanicID, ApptID) VALUES 
+(1,  1,  '2026-04-01', 7100.00, 1,  1), 
+(2,  2,  '2026-04-03', 2080.00, 2,  2), 
+(3,  3,  '2026-04-05', 28800.00, 3,  3), 
+(4,  4,  '2026-04-08', 3500.00, 4,  4), 
+(5,  5,  '2026-04-10', 3000.00, 5,  5), 
+(6,  6,  '2026-04-12', 4750.00, 1,  6), 
+(7,  7,  '2026-04-15', 8500.00, 7,  7), 
+(8,  8,  '2026-04-18', 9500.00, 2,  8), 
+(9,  9,  '2026-04-20', 5600.00, 3,  9), 
+(10, 10, '2026-04-22', 12050.00, 5, 10);
+
+-- ============================================================
+-- 11. SERVICE_PARTS
+-- ============================================================
+REPLACE INTO SERVICE_PARTS (ServiceID, PartID, QuantityUsed) VALUES 
+(1, 1, 1), (1, 6, 2), 
+(2, 2, 1), (2, 16, 1), 
+(3, 5, 4), 
+(4, 6, 1), (4, 13, 2), 
+(5, 4, 1), (5, 11, 1), (5, 6, 1), 
+(6, 4, 1), (6, 6, 2), 
+(7, 3, 1), 
+(8, 10, 1), 
+(9, 9, 2), 
+(10, 4,  1), (10, 11, 1), (10, 6,  1), (10, 2,  1);
+
+-- ============================================================
+-- 12. INVOICE
+-- ============================================================
+REPLACE INTO INVOICE (InvoiceID, ServiceID, IssueDate, DueDate, Subtotal, TaxAmount, GrandTotal, Status, Notes) VALUES 
+(1,  1,  '2026-04-01', '2026-05-01',  7100.00,  1136.00,  8236.00, 'Paid',    'Timing belt and oil change'), 
+(2,  2,  '2026-04-03', '2026-05-03',  2080.00,   332.80,  2412.80, 'Paid',    'Brake pads and fluid'), 
+(3,  3,  '2026-04-05', '2026-05-05', 28800.00,  4608.00, 33408.00, 'Paid',    '4 tyres replaced'), 
+(4,  4,  '2026-04-08', '2026-05-08',  3500.00,   560.00,  4060.00, 'Paid',    'Oil change and coolant'), 
+(5,  5,  '2026-04-10', '2026-05-10',  3000.00,   480.00,  3480.00, 'Paid',    'Full filter and oil service'), 
+(6,  6,  '2026-04-12', '2026-05-12',  4750.00,   760.00,  5510.00, 'Paid',    'Oil and filter change'), 
+(7,  7,  '2026-04-15', '2026-05-15',  8500.00,  1360.00,  9860.00, 'Pending', 'Battery replacement'), 
+(8,  8,  '2026-04-18', '2026-05-18',  9500.00,  1520.00, 11020.00, 'Pending', 'Alternator replacement'), 
+(9,  9,  '2026-04-20', '2026-05-20',  5600.00,   896.00,  6496.00, 'Overdue', 'Two brake discs'), 
+(10, 10, '2026-04-22', '2026-05-22', 12050.00,  1928.00, 13978.00, 'Pending', 'Complete annual service');
+
+-- ============================================================
+-- 13. PAYMENT
+-- ============================================================
+REPLACE INTO PAYMENT (PaymentID, InvoiceID, MethodID, Amount, PaymentDate, ReferenceNo) VALUES 
+(1, 1, 2, 8236.00,  '2026-04-02', 'CARD-TXN-20260402-001'), 
+(2, 2, 1, 2412.80,  '2026-04-04', 'CASH-RCP-20260404-002'), 
+(3, 3, 4, 33408.00, '2026-04-06', 'ONLN-TXN-20260406-003'), 
+(4, 4, 3, 4060.00,  '2026-04-09', 'BNK-TRF-20260409-004'), 
+(5, 5, 2, 3480.00,  '2026-04-11', 'CARD-TXN-20260411-005'), 
+(6, 6, 1, 5510.00,  '2026-04-13', 'CASH-RCP-20260413-006'), 
+(7, 9, 2, 3000.00,  '2026-04-21', 'CARD-TXN-20260421-007');
+
+-- Reactivate integrity constraints now that structural seed arrays match
 SET FOREIGN_KEY_CHECKS = 1;
 
 -- ============================================================
--- TIER 1 — Lookup / Reference Tables (no FK dependencies)
+-- OPERATIONAL ACTIONS (Temporarily disabling safe updates)
 -- ============================================================
+SET SQL_SAFE_UPDATES = 0;
 
--- 1. SPECIALIZATION
---    Extracted from MECHANIC via 3NF normalization.
---    Centralises mechanic specialization area names.
-CREATE TABLE SPECIALIZATION (
-    SpecID      INT          NOT NULL AUTO_INCREMENT,
-    SpecName    VARCHAR(100) NOT NULL,
-    Description TEXT         NULL,
-    PRIMARY KEY (SpecID),
-    CONSTRAINT uq_spec_name UNIQUE (SpecName)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+-- Replenish critical diagnostic and engine stock volumes
+UPDATE INVENTORY  
+SET StockQuantity = StockQuantity + 15  
+WHERE StockQuantity < 15;
 
--- 2. PART_CATEGORY
---    Extracted from INVENTORY via 3NF normalization.
---    Groups spare parts into named categories.
-CREATE TABLE PART_CATEGORY (
-    CategoryID   INT          NOT NULL AUTO_INCREMENT,
-    CategoryName VARCHAR(100) NOT NULL,
-    Description  TEXT         NULL,
-    PRIMARY KEY (CategoryID),
-    CONSTRAINT uq_cat_name UNIQUE (CategoryName)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+-- Purge legacy unserviced test scheduling metrics
+DELETE FROM APPOINTMENT  
+WHERE Status = 'Scheduled' AND ApptDateTime < '2026-05-01';
 
--- 3. PAYMENT_METHOD
---    Extracted from PAYMENT ENUM via 3NF normalization.
---    Stores valid payment method names.
-CREATE TABLE PAYMENT_METHOD (
-    MethodID   INT         NOT NULL AUTO_INCREMENT,
-    MethodName VARCHAR(50) NOT NULL,
-    PRIMARY KEY (MethodID),
-    CONSTRAINT uq_method_name UNIQUE (MethodName)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- 4. SERVICE_TYPE
---    Extracted from APPOINTMENT via 3NF normalization.
---    Centralises service type names and descriptions.
-CREATE TABLE SERVICE_TYPE (
-    ServiceTypeID INT          NOT NULL AUTO_INCREMENT,
-    TypeName      VARCHAR(100) NOT NULL,
-    Description   TEXT         NULL,
-    PRIMARY KEY (ServiceTypeID),
-    CONSTRAINT uq_type_name UNIQUE (TypeName)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+-- Re-enable target protection parameters safely
+SET SQL_SAFE_UPDATES = 1;
 
 -- ============================================================
--- TIER 2 — Core Entity Tables
+-- VALIDATION METRICS & QUERIES
 -- ============================================================
 
--- 5. OWNER
---    Master registry of vehicle owners.
---    No 1NF/2NF/3NF violations found — no changes from v1.0.
-CREATE TABLE OWNER (
-    OwnerID INT          NOT NULL AUTO_INCREMENT,
-    Name    VARCHAR(100) NOT NULL,
-    Phone   VARCHAR(20)  NOT NULL,
-    Address VARCHAR(255) NULL,
-    PRIMARY KEY (OwnerID),
-    CONSTRAINT uq_owner_phone UNIQUE (Phone)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+-- Audit Row counts utilizing safe escaped string parameters
+SELECT 'SPECIALIZATION' AS TableName, COUNT(*) AS `Rows` FROM SPECIALIZATION 
+UNION ALL SELECT 'PART_CATEGORY',   COUNT(*) FROM PART_CATEGORY  
+UNION ALL SELECT 'SERVICE_TYPE',    COUNT(*) FROM SERVICE_TYPE   
+UNION ALL SELECT 'PAYMENT_METHOD',  COUNT(*) FROM PAYMENT_METHOD 
+UNION ALL SELECT 'OWNER',           COUNT(*) FROM OWNER          
+UNION ALL SELECT 'MECHANIC',        COUNT(*) FROM MECHANIC       
+UNION ALL SELECT 'VEHICLE',         COUNT(*) FROM VEHICLE        
+UNION ALL SELECT 'INVENTORY',       COUNT(*) FROM INVENTORY      
+UNION ALL SELECT 'APPOINTMENT',     COUNT(*) FROM APPOINTMENT    
+UNION ALL SELECT 'SERVICE',         COUNT(*) FROM SERVICE        
+UNION ALL SELECT 'SERVICE_PARTS',   COUNT(*) FROM SERVICE_PARTS  
+UNION ALL SELECT 'INVOICE',         COUNT(*) FROM INVOICE        
+UNION ALL SELECT 'PAYMENT',         COUNT(*) FROM PAYMENT;
 
--- 6. MECHANIC
---    Garage technician profiles.
---    CHANGE (3NF): Replaced VARCHAR Specialization with FK SpecID.
-CREATE TABLE MECHANIC (
-    MechanicID INT          NOT NULL AUTO_INCREMENT,
-    Name       VARCHAR(100) NOT NULL,
-    SpecID     INT          NULL,
-    PRIMARY KEY (MechanicID),
-    CONSTRAINT fk_mech_spec
-        FOREIGN KEY (SpecID) REFERENCES SPECIALIZATION(SpecID)
-        ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+-- Integrity check: Missing vehicle registry references
+SELECT  
+    COUNT(*) - COUNT(VehicleID) AS Null_VehicleID, 
+    COUNT(*) - COUNT(PlateNumber) AS Null_PlateNo, 
+    COUNT(*) - COUNT(OwnerID) AS Null_OwnerLink 
+FROM VEHICLE LIMIT 0, 400;
 
--- 7. VEHICLE
---    All registered automobiles.
---    No 1NF/2NF/3NF violations found — no changes from v1.0.
-CREATE TABLE VEHICLE (
-    VehicleID   INT          NOT NULL AUTO_INCREMENT,
-    PlateNumber VARCHAR(20)  NOT NULL,
-    Model       VARCHAR(100) NOT NULL,
-    Year        YEAR         NOT NULL,
-    OwnerID     INT          NOT NULL,
-    PRIMARY KEY (VehicleID),
-    CONSTRAINT uq_plate UNIQUE (PlateNumber),
-    CONSTRAINT fk_veh_owner
-        FOREIGN KEY (OwnerID) REFERENCES OWNER(OwnerID)
-        ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+-- Integrity check: Balanced settlement evaluations
+SELECT  
+    COUNT(*) - COUNT(InvoiceID) AS Null_InvoiceID, 
+    COUNT(*) - COUNT(GrandTotal) AS Null_Totals, 
+    COUNT(*) - COUNT(Status) AS Null_StatusField 
+FROM INVOICE LIMIT 0, 400;
 
--- 8. INVENTORY
---    Spare-parts catalogue and stock tracker.
---    CHANGE (3NF): Added CategoryID FK; extracted PART_CATEGORY.
-CREATE TABLE INVENTORY (
-    PartID        INT            NOT NULL AUTO_INCREMENT,
-    CategoryID    INT            NOT NULL,
-    PartName      VARCHAR(150)   NOT NULL,
-    StockQuantity INT            NOT NULL DEFAULT 0,
-    UnitPrice     DECIMAL(10,2)  NOT NULL,
-    PRIMARY KEY (PartID),
-    CONSTRAINT chk_stock CHECK (StockQuantity >= 0),
-    CONSTRAINT fk_inv_cat
-        FOREIGN KEY (CategoryID) REFERENCES PART_CATEGORY(CategoryID)
-        ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- ============================================================
--- TIER 3 — Transaction / Event Tables
--- ============================================================
-
--- 9. APPOINTMENT (v1.1 + M2 changes)
---    Service booking and scheduling.
---    CHANGE (3NF): Replaced VARCHAR ServiceType with FK ServiceTypeID.
---    NOTE: Created before SERVICE so SERVICE can hold ApptID backlink FK.
-CREATE TABLE APPOINTMENT (
-    ApptID        INT      NOT NULL AUTO_INCREMENT,
-    VehicleID     INT      NOT NULL,
-    MechanicID    INT      NULL,
-    ApptDateTime  DATETIME NOT NULL,
-    ServiceTypeID INT      NOT NULL,
-    Status        ENUM('Scheduled','In Progress','Completed','Cancelled')
-                           NOT NULL DEFAULT 'Scheduled',
-    Notes         TEXT     NULL,
-    PRIMARY KEY (ApptID),
-    CONSTRAINT fk_appt_vehicle
-        FOREIGN KEY (VehicleID) REFERENCES VEHICLE(VehicleID)
-        ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT fk_appt_mechanic
-        FOREIGN KEY (MechanicID) REFERENCES MECHANIC(MechanicID)
-        ON DELETE SET NULL ON UPDATE CASCADE,
-    CONSTRAINT fk_appt_stype
-        FOREIGN KEY (ServiceTypeID) REFERENCES SERVICE_TYPE(ServiceTypeID)
-        ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- 10. SERVICE
---     Operational core — logs every service event.
---     CHANGE (M2): Added optional ApptID FK backlink.
---     TotalCost is trigger-maintained (see triggers section).
-CREATE TABLE SERVICE (
-    ServiceID   INT           NOT NULL AUTO_INCREMENT,
-    VehicleID   INT           NOT NULL,
-    ServiceDate DATE          NOT NULL,
-    TotalCost   DECIMAL(10,2) NOT NULL DEFAULT 0.00,
-    MechanicID  INT           NOT NULL,
-    ApptID      INT           NULL,
-    PRIMARY KEY (ServiceID),
-    CONSTRAINT fk_svc_vehicle
-        FOREIGN KEY (VehicleID) REFERENCES VEHICLE(VehicleID)
-        ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT fk_svc_mechanic
-        FOREIGN KEY (MechanicID) REFERENCES MECHANIC(MechanicID)
-        ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT fk_svc_appt
-        FOREIGN KEY (ApptID) REFERENCES APPOINTMENT(ApptID)
-        ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- 11. SERVICE_PARTS (Junction Table)
---     Resolves M:N between SERVICE and INVENTORY.
---     2NF verified: QuantityUsed depends on the FULL composite PK.
---     No changes from v1.0 — correctly designed from start.
-CREATE TABLE SERVICE_PARTS (
-    ServiceID    INT NOT NULL,
-    PartID       INT NOT NULL,
-    QuantityUsed INT NOT NULL,
-    PRIMARY KEY (ServiceID, PartID),
-    CONSTRAINT chk_qty CHECK (QuantityUsed > 0),
-    CONSTRAINT fk_sp_service
-        FOREIGN KEY (ServiceID) REFERENCES SERVICE(ServiceID)
-        ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT fk_sp_part
-        FOREIGN KEY (PartID) REFERENCES INVENTORY(PartID)
-        ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- ============================================================
--- TIER 4 — Financial Tables (v1.1)
--- ============================================================
-
--- 12. INVOICE (v1.1)
---     Formal billing record per service (1:1 with SERVICE).
---     GrandTotal is trigger-maintained — not a 3NF violation.
-CREATE TABLE INVOICE (
-    InvoiceID  INT           NOT NULL AUTO_INCREMENT,
-    ServiceID  INT           NOT NULL,
-    IssueDate  DATE          NOT NULL,
-    DueDate    DATE          NOT NULL,
-    Subtotal   DECIMAL(10,2) NOT NULL DEFAULT 0.00,
-    TaxAmount  DECIMAL(10,2) NOT NULL DEFAULT 0.00,
-    GrandTotal DECIMAL(10,2) NOT NULL DEFAULT 0.00,
-    Status     ENUM('Pending','Paid','Overdue','Cancelled')
-                             NOT NULL DEFAULT 'Pending',
-    Notes      TEXT          NULL,
-    PRIMARY KEY (InvoiceID),
-    CONSTRAINT uq_invoice_service UNIQUE (ServiceID),
-    CONSTRAINT fk_inv_service
-        FOREIGN KEY (ServiceID) REFERENCES SERVICE(ServiceID)
-        ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- 13. PAYMENT (v1.1 + M2 changes)
---     Payment transactions against invoices (supports instalments).
---     CHANGE (3NF): Replaced ENUM PaymentMethod with FK MethodID.
-CREATE TABLE PAYMENT (
-    PaymentID   INT           NOT NULL AUTO_INCREMENT,
-    InvoiceID   INT           NOT NULL,
-    MethodID    INT           NOT NULL,
-    Amount      DECIMAL(10,2) NOT NULL,
-    PaymentDate DATE          NOT NULL,
-    ReferenceNo VARCHAR(100)  NULL,
-    PRIMARY KEY (PaymentID),
-    CONSTRAINT chk_pay_amount CHECK (Amount > 0),
-    CONSTRAINT fk_pay_invoice
-        FOREIGN KEY (InvoiceID) REFERENCES INVOICE(InvoiceID)
-        ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT fk_pay_method
-        FOREIGN KEY (MethodID) REFERENCES PAYMENT_METHOD(MethodID)
-        ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- ============================================================
--- SEED DATA — Lookup Tables
--- ============================================================
-
-INSERT INTO SPECIALIZATION (SpecName, Description) VALUES
-    ('Engine Overhaul',       'Internal combustion engine repair and rebuilding'),
-    ('Electrical Systems',    'Wiring, battery, alternator, and ECU diagnostics'),
-    ('Tyres and Suspension',  'Tyre fitting, wheel alignment, shock absorbers'),
-    ('Air Conditioning',      'AC recharge, compressor repair, cabin cooling'),
-    ('Brakes',                'Brake pad replacement, disc skimming, fluid flush'),
-    ('Bodywork',              'Panel beating, dent removal, painting'),
-    ('General Maintenance',   'Routine servicing, oil changes, filter replacements');
-
-INSERT INTO PART_CATEGORY (CategoryName, Description) VALUES
-    ('Engine Components', 'Pistons, camshafts, timing belts, gaskets'),
-    ('Brake System',      'Brake pads, discs, callipers, brake fluid'),
-    ('Electrical',        'Batteries, alternators, starter motors, fuses'),
-    ('Filters',           'Oil filters, air filters, fuel filters, cabin filters'),
-    ('Tyres and Wheels',  'Tyres, rims, valve stems, wheel nuts'),
-    ('Fluids',            'Engine oil, coolant, brake fluid, power steering fluid'),
-    ('Body Parts',        'Bumpers, mirrors, door handles, windscreens');
-
-INSERT INTO PAYMENT_METHOD (MethodName) VALUES
-    ('Cash'), ('Card'), ('Bank Transfer'), ('Online');
-
-INSERT INTO SERVICE_TYPE (TypeName, Description) VALUES
-    ('Oil Change',              'Drain and replace engine oil and oil filter'),
-    ('Full Annual Service',     'Comprehensive 50-point vehicle inspection and service'),
-    ('Brake Inspection',        'Check and replace brake pads, discs, and fluid'),
-    ('Tyre Rotation',           'Rotate tyres to even wear; check pressure and tread'),
-    ('Engine Diagnostics',      'OBD-II scan and engine fault code analysis'),
-    ('Air Conditioning Service','AC recharge, leak test, and cabin filter replacement'),
-    ('Electrical Fault Check',  'Battery test, wiring inspection, ECU diagnostics');
-
--- ============================================================
--- RECOMMENDED INDEXES
--- ============================================================
-
-CREATE INDEX idx_vehicle_owner    ON VEHICLE(OwnerID);
-CREATE INDEX idx_service_vehicle  ON SERVICE(VehicleID, ServiceDate);
-CREATE INDEX idx_service_mechanic ON SERVICE(MechanicID);
-CREATE INDEX idx_invoice_status   ON INVOICE(Status, DueDate);
-CREATE INDEX idx_payment_invoice  ON PAYMENT(InvoiceID);
-CREATE INDEX idx_appt_vehicle     ON APPOINTMENT(VehicleID, ApptDateTime);
-CREATE INDEX idx_appt_mechanic    ON APPOINTMENT(MechanicID);
-CREATE INDEX idx_inventory_cat    ON INVENTORY(CategoryID);
-
--- ============================================================
--- TRIGGERS
--- ============================================================
-
-DELIMITER $$
-
--- Trigger 1: Auto-update SERVICE.TotalCost after a part is logged
-CREATE TRIGGER trg_update_total_cost
-AFTER INSERT ON SERVICE_PARTS
-FOR EACH ROW
-BEGIN
-    UPDATE SERVICE
-    SET    TotalCost = (
-               SELECT COALESCE(SUM(sp.QuantityUsed * i.UnitPrice), 0)
-               FROM   SERVICE_PARTS sp
-               JOIN   INVENTORY     i  ON i.PartID    = sp.PartID
-               WHERE  sp.ServiceID  = NEW.ServiceID
-           )
-    WHERE  ServiceID = NEW.ServiceID;
-END$$
-
--- Trigger 2: Auto-update INVOICE.Subtotal when SERVICE.TotalCost changes
-CREATE TRIGGER trg_update_invoice_subtotal
-AFTER UPDATE ON SERVICE
-FOR EACH ROW
-BEGIN
-    IF NEW.TotalCost <> OLD.TotalCost THEN
-        UPDATE INVOICE
-        SET    Subtotal   = NEW.TotalCost,
-               GrandTotal = NEW.TotalCost + TaxAmount
-        WHERE  ServiceID  = NEW.ServiceID;
-    END IF;
-END$$
-
--- Trigger 3: Auto-mark invoice as Paid when fully settled
-CREATE TRIGGER trg_check_invoice_paid
-AFTER INSERT ON PAYMENT
-FOR EACH ROW
-BEGIN
-    DECLARE v_paid  DECIMAL(10,2);
-    DECLARE v_grand DECIMAL(10,2);
-    SELECT COALESCE(SUM(Amount), 0) INTO v_paid
-      FROM PAYMENT WHERE InvoiceID = NEW.InvoiceID;
-    SELECT GrandTotal INTO v_grand
-      FROM INVOICE    WHERE InvoiceID = NEW.InvoiceID;
-    IF v_paid >= v_grand THEN
-        UPDATE INVOICE
-        SET    Status    = 'Paid'
-        WHERE  InvoiceID = NEW.InvoiceID;
-    END IF;
-END$$
-
--- Trigger 4: Auto-update INVENTORY stock when a part is consumed
-CREATE TRIGGER trg_decrement_stock
-AFTER INSERT ON SERVICE_PARTS
-FOR EACH ROW
-BEGIN
-    UPDATE INVENTORY
-    SET    StockQuantity = StockQuantity - NEW.QuantityUsed
-    WHERE  PartID        = NEW.PartID;
-END$$
-
--- Trigger 5: Mark APPOINTMENT as Completed when SERVICE is created with its ApptID
-CREATE TRIGGER trg_complete_appointment
-AFTER INSERT ON SERVICE
-FOR EACH ROW
-BEGIN
-    IF NEW.ApptID IS NOT NULL THEN
-        UPDATE APPOINTMENT
-        SET    Status  = 'Completed'
-        WHERE  ApptID  = NEW.ApptID
-          AND  Status IN ('Scheduled','In Progress');
-    END IF;
-END$$
-
-DELIMITER ;
-
--- ============================================================
--- SAMPLE QUERIES (Business Use Cases)
--- ============================================================
-
--- 1. Pending invoices with owner and vehicle details
-SELECT  o.Name AS OwnerName, v.PlateNumber, v.Model,
-        i.InvoiceID, i.IssueDate, i.DueDate, i.GrandTotal
-FROM    INVOICE i
-JOIN    SERVICE s  ON s.ServiceID = i.ServiceID
-JOIN    VEHICLE v  ON v.VehicleID = s.VehicleID
-JOIN    OWNER   o  ON o.OwnerID   = v.OwnerID
-WHERE   i.Status = 'Pending'
-ORDER   BY i.DueDate ASC;
-
--- 2. Revenue per mechanic this month (with specialization)
-SELECT  m.Name AS Mechanic, sp2.SpecName AS Specialization,
-        SUM(p.Amount) AS TotalCollected
-FROM    PAYMENT     p
-JOIN    INVOICE     i   ON i.InvoiceID  = p.InvoiceID
-JOIN    SERVICE     s   ON s.ServiceID  = i.ServiceID
-JOIN    MECHANIC    m   ON m.MechanicID = s.MechanicID
-LEFT JOIN SPECIALIZATION sp2 ON sp2.SpecID = m.SpecID
-WHERE   p.PaymentDate >= DATE_FORMAT(NOW(), '%Y-%m-01')
-GROUP   BY m.MechanicID
-ORDER   BY TotalCollected DESC;
-
--- 3. Upcoming appointments next 7 days
-SELECT  a.ApptDateTime, v.PlateNumber, o.Name AS Owner, o.Phone,
-        m.Name AS Mechanic, st.TypeName AS ServiceType, a.Status
-FROM    APPOINTMENT   a
-JOIN    VEHICLE       v   ON v.VehicleID    = a.VehicleID
-JOIN    OWNER         o   ON o.OwnerID      = v.OwnerID
-LEFT JOIN MECHANIC    m   ON m.MechanicID   = a.MechanicID
-JOIN    SERVICE_TYPE  st  ON st.ServiceTypeID = a.ServiceTypeID
-WHERE   a.ApptDateTime BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 7 DAY)
-  AND   a.Status IN ('Scheduled','In Progress')
-ORDER   BY a.ApptDateTime ASC;
-
--- 4. Parts with low stock by category
-SELECT  pc.CategoryName, i.PartName, i.StockQuantity, i.UnitPrice
-FROM    INVENTORY     i
-JOIN    PART_CATEGORY pc ON pc.CategoryID = i.CategoryID
-WHERE   i.StockQuantity < 5
-ORDER   BY pc.CategoryName, i.StockQuantity ASC;
-
--- 5. Full service history for a vehicle (by plate number)
-SELECT  s.ServiceDate, s.TotalCost,
-        m.Name AS Mechanic, sp2.SpecName AS Specialization,
-        inv.InvoiceID, inv.Status AS InvoiceStatus,
-        inv.GrandTotal
-FROM    SERVICE   s
-JOIN    MECHANIC  m    ON m.MechanicID  = s.MechanicID
-LEFT JOIN SPECIALIZATION sp2 ON sp2.SpecID = m.SpecID
-LEFT JOIN INVOICE inv  ON inv.ServiceID = s.ServiceID
-WHERE   s.VehicleID = (
-            SELECT VehicleID FROM VEHICLE WHERE PlateNumber = 'ABC-1234'
-        )
-ORDER   BY s.ServiceDate DESC;
-
--- ============================================================
--- END OF SCHEMA v1.2
--- Smart Vehicle Management System | Milestone 2
--- Asim Ali | Tariq Jamil | BSCS 'A'
--- ============================================================
+-- Executive KPI breakdown: Recent system transformations
+SELECT  
+    o.Name AS Customer, 
+    v.PlateNumber AS VehiclePlate, 
+    v.Model AS CarModel, 
+    s.ServiceDate AS DateServiced, 
+    i.GrandTotal AS InvoiceAmount, 
+    i.Status AS PaymentStatus 
+FROM OWNER o 
+JOIN VEHICLE v ON o.OwnerID = v.OwnerID 
+JOIN SERVICE s ON v.VehicleID = s.VehicleID 
+JOIN INVOICE i ON s.ServiceID = i.ServiceID 
+ORDER BY s.ServiceDate DESC 
+LIMIT 5;
