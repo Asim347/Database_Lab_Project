@@ -1,16 +1,51 @@
 ApptID,VehicleID,MechanicID,ApptDateTime,ServiceTypeID,Status,Notes
-1,1,1,2026-04-01 09:00:00,1,Completed,Please check engine noise
-2,2,2,2026-04-03 10:30:00,2,Completed,Brakes feel soft
-3,3,3,2026-04-05 11:00:00,3,Completed,Tyre rotation due
-4,4,4,2026-04-08 09:30:00,4,Completed,AC not cooling properly
-5,5,5,2026-04-10 14:00:00,5,Completed,Routine annual service
-6,6,6,2026-04-12 10:00:00,1,Completed,Oil change required
-7,7,7,2026-04-15 11:30:00,7,Completed,Engine light on
-8,8,8,2026-04-18 09:00:00,2,Completed,Battery check
-9,9,9,2026-04-20 15:00:00,3,Completed,Suspension noise
-10,10,10,2026-04-22 10:00:00,5,Completed,Full annual service
+1,1,1.0,2026-04-01 09:00:00,1,Completed,Please check engine noise
+2,2,2.0,2026-04-03 10:30:00,2,Completed,Brakes feel soft
+3,3,3.0,2026-04-05 11:00:00,3,Completed,Tyre rotation due
+4,4,4.0,2026-04-08 09:30:00,4,Completed,AC not cooling properly
+5,5,5.0,2026-04-10 14:00:00,5,Completed,Routine annual service
+6,6,6.0,2026-04-12 10:00:00,1,Completed,Oil change required
+7,7,7.0,2026-04-15 11:30:00,7,Completed,Engine light on
+8,8,8.0,2026-04-18 09:00:00,2,Completed,Battery check
+9,9,9.0,2026-04-20 15:00:00,3,Completed,Suspension noise
+10,10,10.0,2026-04-22 10:00:00,5,Completed,Full annual service
 11,11,,2026-05-20 09:00:00,1,Scheduled,Oil change overdue
 12,12,,2026-05-22 10:30:00,3,Scheduled,Check tyre pressure
-13,13,1,2026-05-25 11:00:00,2,Scheduled,Brake inspection
-14,14,2,2026-05-28 14:00:00,7,Scheduled,Electrical fault
+13,13,1.0,2026-05-25 11:00:00,2,Scheduled,Brake inspection
+14,14,2.0,2026-05-28 14:00:00,7,Scheduled,Electrical fault
 15,15,,2026-06-01 09:30:00,6,Scheduled,AC service needed
+16,41,8.0,2026-04-26 13:00:00,15,Completed,Routine vehicle checkup
+17,44,48.0,2026-05-13 10:30:00,3,Completed,Routine vehicle checkup
+18,14,15.0,2026-05-12 09:00:00,46,Cancelled,AC servicing requested
+19,27,15.0,2026-05-10 13:00:00,49,Completed,Brake check
+20,22,18.0,2026-04-30 12:30:00,7,Completed,Brake check
+21,7,23.0,2026-05-07 13:00:00,47,Pending,AC servicing requested
+22,8,25.0,2026-04-28 17:30:00,41,Cancelled,General maintenance
+23,37,13.0,2026-05-18 10:00:00,43,Completed,General maintenance
+24,6,15.0,2026-04-29 15:30:00,30,Cancelled,General maintenance
+25,11,24.0,2026-05-07 12:30:00,45,Cancelled,Routine vehicle checkup
+26,39,41.0,2026-05-01 17:00:00,11,Pending,Brake check
+27,18,41.0,2026-05-18 17:00:00,44,Pending,Routine vehicle checkup
+28,15,3.0,2026-05-06 15:30:00,5,Completed,AC servicing requested
+29,46,21.0,2026-05-02 16:30:00,42,Pending,Engine noise inspection
+30,17,9.0,2026-05-03 17:30:00,48,Cancelled,Brake check
+31,38,26.0,2026-05-07 12:00:00,33,Pending,Routine vehicle checkup
+32,49,4.0,2026-04-29 11:00:00,44,Pending,AC servicing requested
+33,5,25.0,2026-05-08 16:30:00,36,Completed,Routine vehicle checkup
+34,44,35.0,2026-05-20 13:30:00,8,Pending,Brake check
+35,11,30.0,2026-04-26 13:00:00,33,Completed,General maintenance
+36,41,33.0,2026-05-15 12:00:00,24,Completed,AC servicing requested
+37,50,34.0,2026-04-26 14:30:00,2,Completed,General maintenance
+38,20,16.0,2026-04-27 12:00:00,6,Cancelled,Brake check
+39,5,49.0,2026-05-13 11:00:00,43,Pending,AC servicing requested
+40,11,17.0,2026-05-12 15:00:00,35,Cancelled,Engine noise inspection
+41,46,20.0,2026-05-08 14:30:00,34,Pending,Routine vehicle checkup
+42,16,15.0,2026-04-28 14:00:00,38,Cancelled,Engine noise inspection
+43,38,15.0,2026-04-26 10:00:00,15,Completed,Routine vehicle checkup
+44,22,5.0,2026-05-12 12:30:00,43,Pending,Engine noise inspection
+45,35,9.0,2026-05-19 16:00:00,31,Pending,Engine noise inspection
+46,7,7.0,2026-05-17 15:30:00,28,Pending,Brake check
+47,47,4.0,2026-05-17 10:00:00,26,Cancelled,General maintenance
+48,7,16.0,2026-05-02 12:30:00,9,Pending,Engine noise inspection
+49,18,30.0,2026-05-03 10:30:00,36,Completed,Routine vehicle checkup
+50,42,35.0,2026-04-26 10:00:00,11,Pending,Brake check
